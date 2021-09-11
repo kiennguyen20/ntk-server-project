@@ -1,0 +1,37 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "this is backend of ecommerce",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.server.js"
+  },
+  "keywords": [
+    "ecommerce",
+    "mern",
+    "project",
+    "backend",
+    "api",
+    "api"
+  ],
+  "author": "Trung Kien",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.974.0",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.5",
+    "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
+    "shortid": "^2.2.16",
+    "slugify": "^1.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
