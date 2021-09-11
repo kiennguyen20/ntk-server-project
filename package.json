@@ -33,5 +33,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "this is backend\tof ntp-app"
   }
 }
