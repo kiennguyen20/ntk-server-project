@@ -16,15 +16,17 @@ exports.register = (req, res) => {
         error: "User already registered",
       });
 
-    const { email, password } = req.body;
+    const { name, phone, email, password } = req.body;
     const hash_password = await bcrypt.hash(password, 10);
     const _user = new User({
+      name,
+      phone,
       email,
       hash_password,
       username: shortid.generate(),
     });
 
-    _user.save((error, user) => {
+    _user.save((error, data) => {
       if (error) {
         return res.status(400).json({
           message: "Something went wrong",
@@ -32,11 +34,11 @@ exports.register = (req, res) => {
       }
 
       if (user) {
-        const token = generateJwtToken(user._id, user.roles);
-        const { _id, email, roles } = user;
+        const token = generateJwtToken(user._id, user.role);
+        const { _id, name, phone, email, roles } = user;
         return res.status(201).json({
           token,
-          user: { _id, email, roles },
+          user: { _id, name, phone, email, roles },
         });
       }
     });
@@ -50,25 +52,19 @@ exports.login = (req, res) => {
       const isPassword = await user.authenticate(req.body.password);
       if (isPassword && user.roles === "user") {
         // const token = jwt.sign(
-        //   { _id: user._id, roles: user.roles },
+        //   { _id: user._id, role: user.role },
         //   process.env.JWT_SECRET,
-        //   {
-        //     expiresIn: "10h",
-        //   }
+        //   { expiresIn: "1d" }
         // );
-        const token = generateJwtToken(user._id, user.roles);
-        const { _id, email, roles } = user;
+        const token = generateJwtToken(user._id, user.role);
+        const { _id, name, phone, email, roles } = user;
         res.status(200).json({
           token,
-          user: {
-            _id,
-            email,
-            roles,
-          },
+          user: { _id, name, phone, email, roles },
         });
       } else {
         return res.status(400).json({
-          message: "Tài khoản hoặc mật khẩu không hợp lệ",
+          message: "Something went wrong",
         });
       }
     } else {

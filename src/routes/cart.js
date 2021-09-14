@@ -19,11 +19,8 @@ router.post(
   userMiddleware,
   addItemToCart
 );
+//router.post('/user/cart/addToCartByLogin', requireSignin, userMiddleware, addToCart);
 router.post("/user/getCartItems", requireLogin, userMiddleware, getCartItems);
-router.post(
-  "/user/cart/removeItem",
-  requireLogin,
-  userMiddleware,
-  removeCartItems
-);
+//new update
+router.post("/user/cart/removeItem", userMiddleware, removeCartItems);
 module.exports = router;
