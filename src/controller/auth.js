@@ -16,17 +16,15 @@ exports.register = (req, res) => {
         error: "User already registered",
       });
 
-    const { name, phone, email, password } = req.body;
+    const { email, password } = req.body;
     const hash_password = await bcrypt.hash(password, 10);
     const _user = new User({
-      name,
-      phone,
       email,
       hash_password,
       username: shortid.generate(),
     });
 
-    _user.save((error, data) => {
+    _user.save((error, user) => {
       if (error) {
         return res.status(400).json({
           message: "Something went wrong",
@@ -34,11 +32,11 @@ exports.register = (req, res) => {
       }
 
       if (user) {
-        const token = generateJwtToken(user._id, user.role);
-        const { _id, name, phone, email, roles } = user;
+        const token = generateJwtToken(user._id, user.roles);
+        const { _id, email, roles } = user;
         return res.status(201).json({
           token,
-          user: { _id, name, phone, email, roles },
+          user: { _id, email, roles },
         });
       }
     });
@@ -56,11 +54,11 @@ exports.login = (req, res) => {
         //   process.env.JWT_SECRET,
         //   { expiresIn: "1d" }
         // );
-        const token = generateJwtToken(user._id, user.role);
-        const { _id, name, phone, email, roles } = user;
+        const token = generateJwtToken(user._id, user.roles);
+        const { _id, email, roles } = user;
         res.status(200).json({
           token,
-          user: { _id, name, phone, email, roles },
+          user: { _id, email, roles },
         });
       } else {
         return res.status(400).json({
